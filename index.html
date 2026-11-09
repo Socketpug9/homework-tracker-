@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Homework</title>
+  <meta name="theme-color" content="#0b0c0a" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Homework" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="14" height="14"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="brand-name">Homework</span>
+      </div>
+      <div class="top-right">
+        <span class="status" id="status"><i></i><span>all clear</span></span>
+        <button class="icon-btn" id="openSettings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <span class="chip mono" id="heroChip"><i></i><span>—</span></span>
+      <h1 id="headline">Nothing due. <em>Go outside.</em></h1>
+      <p class="sub" id="heroSub"></p>
+    </section>
+
+    <nav class="filters" id="filters" aria-label="Filter by class"></nav>
+
+    <main id="list" class="list"></main>
+
+    <div class="empty" id="empty" hidden>
+      <div class="empty-card">
+        <p class="mono dim">no homework yet</p>
+        <p>Add your first assignment with the button below. Pick the class, when it's due and how much it matters.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dock">
+    <button class="btn-primary" id="openAdd">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Add homework
+    </button>
+  </div>
+
+  <!-- Add / edit sheet -->
+  <div class="scrim" id="scrim" hidden></div>
+  <section class="sheet" id="editSheet" role="dialog" aria-modal="true" aria-labelledby="editTitle" hidden>
+    <div class="grabber"></div>
+    <div class="sheet-head">
+      <span class="mono dim" id="editKicker">new / 3 fields</span>
+      <button class="text-btn" data-close>Cancel</button>
+    </div>
+    <h2 id="editTitle">Add homework</h2>
+    <form id="editForm" autocomplete="off">
+      <label class="field">
+        <span class="label mono">what</span>
+        <input id="fTitle" name="title" type="text" placeholder="Chapter 4 questions" required maxlength="120" />
+      </label>
+
+      <div class="field">
+        <span class="label mono">class</span>
+        <div class="class-pick" id="classPick"></div>
+        <div class="new-class" id="newClassRow" hidden>
+          <input id="fNewClass" type="text" placeholder="Class name, e.g. Biology" maxlength="40" />
+          <button type="button" class="btn-ghost small" id="addClassBtn">Add</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="label mono">due</span>
+        <div class="row2">
+          <input id="fDate" type="date" required />
+          <input id="fTime" type="time" required />
+        </div>
+        <div class="quick" id="quickDue">
+          <button type="button" data-quick="tonight">Tonight</button>
+          <button type="button" data-quick="tomorrow">Tomorrow</button>
+          <button type="button" data-quick="friday">Friday</button>
+          <button type="button" data-quick="week">Next week</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="label mono">importance</span>
+        <div class="seg" id="fImportance" role="radiogroup">
+          <button type="button" role="radio" data-v="1"><span class="bars b1"><i></i><i></i><i></i></span>Low</button>
+          <button type="button" role="radio" data-v="2"><span class="bars b2"><i></i><i></i><i></i></span>Medium</button>
+          <button type="button" role="radio" data-v="3"><span class="bars b3"><i></i><i></i><i></i></span>High</button>
+        </div>
+      </div>
+
+      <label class="field">
+        <span class="label mono">notes <span class="dim">/ optional</span></span>
+        <textarea id="fNotes" rows="2" placeholder="Page numbers, what to bring…" maxlength="500"></textarea>
+      </label>
+
+      <div class="sheet-actions">
+        <button type="button" class="btn-danger" id="deleteBtn" hidden>Delete</button>
+        <button type="submit" class="btn-primary grow" id="saveBtn">Save</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Settings sheet -->
+  <section class="sheet" id="settingsSheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" hidden>
+    <div class="grabber"></div>
+    <div class="sheet-head">
+      <span class="mono dim">settings</span>
+      <button class="text-btn" data-close>Done</button>
+    </div>
+    <h2 id="settingsTitle">Settings</h2>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>Home reminders</span>
+        <span class="mono dim" id="homeState">not set up</span>
+      </div>
+      <p class="panel-text">Get a reminder the moment you get home, and another one 30 minutes later. Your iPhone does this with the built-in Shortcuts app, no App Store needed.</p>
+      <button class="btn-ghost full" id="openHomeGuide">Set up home reminders</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>Icon badge</span>
+        <span class="mono dim" id="badgeState">off</span>
+      </div>
+      <p class="panel-text">Shows a number on the Home Screen icon for anything overdue or due in the next 24 hours.</p>
+      <button class="btn-ghost full" id="enableBadge">Turn on badge</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>Classes</span>
+        <span class="mono dim" id="classCount">0</span>
+      </div>
+      <ul class="class-list" id="classList"></ul>
+      <div class="new-class">
+        <input id="settingsNewClass" type="text" placeholder="Add a class" maxlength="40" />
+        <button type="button" class="btn-ghost small" id="settingsAddClass">Add</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>Backup</span>
+        <span class="mono dim">saved on this phone</span>
+      </div>
+      <p class="panel-text">Your homework is stored on this iPhone only. Export a backup file before deleting the app.</p>
+      <div class="row2">
+        <button class="btn-ghost" id="exportBtn">Export</button>
+        <button class="btn-ghost" id="importBtn">Import</button>
+      </div>
+      <input type="file" id="importFile" accept="application/json,.json" hidden />
+      <button class="text-btn danger" id="clearDone">Clear finished homework</button>
+    </div>
+  </section>
+
+  <!-- Home reminder guide -->
+  <section class="sheet" id="homeSheet" role="dialog" aria-modal="true" aria-labelledby="homeTitle" hidden>
+    <div class="grabber"></div>
+    <div class="sheet-head">
+      <span class="mono dim">home reminders / shortcuts</span>
+      <button class="text-btn" data-close>Done</button>
+    </div>
+    <h2 id="homeTitle">Remind me when I get <em>home</em>.</h2>
+    <p class="panel-text">One automation in the Shortcuts app (already on your iPhone). It runs by itself every time you arrive home.</p>
+
+    <ol class="steps">
+      <li><b>Open Shortcuts</b> → tap <b>Automation</b> at the bottom → <b>+</b> (or <b>New Automation</b>).</li>
+      <li>Choose <b>Arrive</b>. Set Location to <b>Home</b> (your address from your contact card). Pick <b>Run Immediately</b> and turn <b>Notify When Run</b> off. Tap <b>Next</b>.</li>
+      <li>Tap <b>New Blank Automation</b>, then add these 3 actions in order:
+        <div class="flow">
+          <div class="node"><span class="mono dim">1 / show notification</span><span class="copy-line" data-copy="msg1"></span></div>
+          <div class="node"><span class="mono dim">2 / wait</span><span>1800 seconds <span class="dim">(30 min)</span></span></div>
+          <div class="node"><span class="mono dim">3 / show notification</span><span class="copy-line" data-copy="msg2"></span></div>
+        </div>
+      </li>
+      <li>Tap <b>Done</b>. That's it. Tapping one of these notifications opens Shortcuts, so open Homework from your Home Screen.</li>
+    </ol>
+
+    <div class="panel">
+      <div class="panel-head"><span>Notification text</span><span class="mono dim">tap to copy</span></div>
+      <button class="copy" data-copy-btn="msg1"><span class="mono dim">when you get home</span><span id="msg1"></span></button>
+      <button class="copy" data-copy-btn="msg2"><span class="mono dim">30 min later</span><span id="msg2"></span></button>
+    </div>
+
+    <p class="panel-text dim small">Tip: if “Home” isn't offered in step 2, open the Contacts app → your own card → add your home address.</p>
+    <button class="btn-primary full" id="homeDone">I set it up</button>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <span id="toastText"></span>
+    <button class="text-btn accent" id="toastAction" hidden>Undo</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
