@@ -660,5 +660,14 @@
     navigator.serviceWorker.register("sw.js").catch(() => {});
   }
 
+  /* ---------- "add to home screen" hint (Safari only, not once installed) ---------- */
+  const installed = navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (isIOS && !installed && !sessionStorage.getItem("hw-install-hidden")) $("#install").hidden = false;
+  $("#installClose").addEventListener("click", () => {
+    $("#install").hidden = true;
+    sessionStorage.setItem("hw-install-hidden", "1");
+  });
+
   render();
 })();

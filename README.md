@@ -11,13 +11,15 @@ A homework tracker for iPhone that you add to your Home Screen. No App Store.
 
 ## Put it on your iPhone
 
-1. The site has to be online. This repo deploys itself to GitHub Pages from `main`
-   (repo **Settings → Pages → Source: GitHub Actions**). GitHub Pages on a private repo
-   needs a paid plan, so either make the repo public or drag the folder onto
-   https://app.netlify.com/drop.
-2. On the iPhone, open the site in **Safari** → tap **Share** → **Add to Home Screen** → **Add**.
-3. Open **Homework** from the Home Screen (not Safari, they keep separate data).
-4. In the app: Settings → **Set up home reminders** and follow the 4 steps.
+1. GitHub → this repo → **Settings → General → Danger Zone → Change visibility → Public**.
+2. **Settings → Pages → Build and deployment**: Source **Deploy from a branch**,
+   Branch **`claude/wizardly-cannon-4m0rob`** (or `main` once merged), folder **`/ (root)`** → **Save**.
+3. Wait about a minute. The site is at **https://socketpug9.github.io/homework-tracker-/**
+4. Open that link in **Safari** on the iPhone. The app shows the Add to Home Screen steps:
+   **Share → Add to Home Screen → Add**.
+5. Open **Homework** from the Home Screen, then Settings → **Set up home reminders**.
+
+Every push to the chosen branch updates the site by itself.
 
 ## Files
 
